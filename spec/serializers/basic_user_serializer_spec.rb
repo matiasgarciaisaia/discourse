@@ -29,7 +29,7 @@ RSpec.describe BasicUserSerializer do
     end
   end
 
-  context "with user status" do
+  describe "#status" do
     fab!(:user_status) { Fabricate(:user_status) }
 
     before { user.user_status = user_status }
