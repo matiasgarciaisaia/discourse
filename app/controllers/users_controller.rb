@@ -2233,9 +2233,6 @@ class UsersController < ApplicationController
   end
 
   def serialize_found_users(users)
-    each_serializer =
-      SiteSetting.enable_user_status? ? FoundUserWithStatusSerializer : FoundUserSerializer
-
-    { users: ActiveModel::ArraySerializer.new(users, each_serializer: each_serializer).as_json }
+    { users: ActiveModel::ArraySerializer.new(users, each_serializer: FoundUserSerializer).as_json }
   end
 end
