@@ -22,10 +22,10 @@ end
 #  chat_message_id :integer          not null
 #  user_id         :integer          not null
 #  notification_id :integer          not null
+#  target_id       :integer
+#  type            :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 # Indexes
-#
-#  chat_mentions_index  (chat_message_id,user_id,notification_id) UNIQUE
 #
