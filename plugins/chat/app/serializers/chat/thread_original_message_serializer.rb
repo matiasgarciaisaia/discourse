@@ -17,7 +17,7 @@ module Chat
 
     def mentioned_users
       object
-        .chat_mentions
+        .user_mentions
         .map(&:user)
         .compact
         .sort_by(&:id)
