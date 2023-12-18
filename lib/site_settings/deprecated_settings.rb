@@ -33,6 +33,7 @@ module SiteSettings::DeprecatedSettings
     ],
     ["min_trust_level_to_allow_invite", "invite_allowed_groups", false, "3.3"],
     ["min_trust_level_to_allow_ignore", "ignore_allowed_groups", false, "3.3"],
+    ["min_trust_to_send_email_messages", "send_email_messages_allowed_groups", false, "3.3"],
   ]
 
   OVERRIDE_TL_GROUP_SETTINGS = %w[
@@ -108,13 +109,7 @@ module SiteSettings::DeprecatedSettings
 
   def setup_deprecated_methods
     SETTINGS.each do |old_setting, new_setting, override, version|
-      if !override
-        SiteSetting.singleton_class.public_send(
-          :alias_method,
-          :"_#{old_setting}",
-          :"#{old_setting}",
-        )
-      end
+      SiteSetting.singleton_class.alias_method(:"_#{old_setting}", :"#{old_setting}") if !override
 
       if OVERRIDE_TL_GROUP_SETTINGS.include?(old_setting)
         define_singleton_method "_group_to_tl_#{old_setting}" do |warn: true|
@@ -137,13 +132,7 @@ module SiteSettings::DeprecatedSettings
         end
       end
 
-      if !override
-        SiteSetting.singleton_class.public_send(
-          :alias_method,
-          :"_#{old_setting}?",
-          :"#{old_setting}?",
-        )
-      end
+      SiteSetting.singleton_class.alias_method(:"_#{old_setting}?", :"#{old_setting}?") if !override
 
       define_singleton_method "#{old_setting}?" do |warn: true|
         if warn
@@ -156,13 +145,7 @@ module SiteSettings::DeprecatedSettings
         self.public_send("#{override ? new_setting : "_" + old_setting}?")
       end
 
-      if !override
-        SiteSetting.singleton_class.public_send(
-          :alias_method,
-          :"_#{old_setting}=",
-          :"#{old_setting}=",
-        )
-      end
+      SiteSetting.singleton_class.alias_method(:"_#{old_setting}=", :"#{old_setting}=") if !override
 
       define_singleton_method "#{old_setting}=" do |val, warn: true|
         if warn
