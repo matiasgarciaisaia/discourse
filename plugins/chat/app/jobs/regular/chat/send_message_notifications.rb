@@ -6,17 +6,19 @@ module Jobs
       def execute(args)
         reason = args[:reason]
         valid_reasons = %w[new edit]
-        return unless valid_reasons.include?(reason)
 
-        return if (timestamp = args[:timestamp]).blank?
+        # fixme andrei replace calls to Notifier with the mew logic
+        # return unless valid_reasons.include?(reason)
 
-        return if (message = ::Chat::Message.find_by(id: args[:chat_message_id])).nil?
+        # return if (timestamp = args[:timestamp]).blank?
 
-        if reason == "new"
-          ::Chat::Notifier.new(message, timestamp).notify_new
-        elsif reason == "edit"
-          ::Chat::Notifier.new(message, timestamp).notify_edit
-        end
+        # return if (message = ::Chat::Message.find_by(id: args[:chat_message_id])).nil?
+
+        # if reason == "new"
+        #   ::Chat::Notifier.new(message, timestamp).notify_new
+        # elsif reason == "edit"
+        #   ::Chat::Notifier.new(message, timestamp).notify_edit
+        # end
       end
     end
   end
